@@ -1,0 +1,1 @@
+k create secret generic dbsecret --from-literal=key1=testpassword
