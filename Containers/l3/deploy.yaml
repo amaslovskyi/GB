@@ -25,7 +25,7 @@ spec:
       serviceAccountName: kubedoom
       containers:
         - name: kubedoom
-          image: storaxdev/kubedoom:0.5.0
+          image: ghcr.io/storax/kubedoom:latest
           resources:
             requests:
               cpu: 100m
