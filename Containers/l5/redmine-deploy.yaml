@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redmine-deploy
+  namespace: db
+  labels:
+    app: redmine-deploy
+spec:
+  selector:
+    matchLabels:
+      app: redmine-deploy
+  replicas: 1
+  # strategy:
+  #   rollingUpdate:
+  #     maxSurge: 25%
+  #     maxUnavailable: 25%
+  #   type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: redmine-deploy
+    spec:
+      containers:
+        - name: redmine-deploy
+          image: redmine:4.1.1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 1000m
+              memory: 1048Mi
+          env:
+            - name: REDMINE_DB_POSTGRES
+              value: database
+            - name: REDMINE_DB_USERNAME
+              value: testuser
+            - name: REDMINE_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dbsecret
+                  key: key1
+            - name: REDMINE_DB_DATABASE
+              value: testdatabase
+            - name: REDMINE_SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: rdsecret
+                  key: key2
+          ports:
+            - containerPort: 3000
+              name: redmine-deploy
+      # restartPolicy: Always

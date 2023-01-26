@@ -1,0 +1,2 @@
+k create secret generic dbsecret --from-literal=key1=testpassword
+k create secret generic rdsecret --from-literal=key2=supersecretkey
