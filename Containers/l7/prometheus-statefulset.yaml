@@ -27,25 +27,10 @@ spec:
       containers:
         - name: prometheus-k8s
           image: prom/prometheus:v2.19.2
-          # env:
-          #   - name: psconfig
-          #     value: /etc/prometheus
           ports:
             - name: prom-port
               protocol: TCP
               containerPort: 9090
-          # livenessProbe:
-          #   exec:
-          #     command: ["prometheusctl", "status"]
-          #   initialDelaySeconds: 60
-          #   periodSeconds: 60
-          #   timeoutSeconds: 15
-          # readinessProbe:
-          #   exec:
-          #     command: ["prometheusctl", "status"]
-          #   initialDelaySeconds: 20
-          #   periodSeconds: 60
-          #   timeoutSeconds: 10
           imagePullPolicy: Always
           volumeMounts:
             - name: config-volume
@@ -56,18 +41,6 @@ spec:
         - name: config-volume
           configMap:
             name: prometheus-conf
-      # affinity:
-      #   podAntiAffinity:
-      #     preferredDuringSchedulingIgnoredDuringExecution:
-      #       - weight: 100
-      #         podAffinityTerm:
-      #           labelSelector:
-      #             matchExpressions:
-      #               - key: app
-      #                 operator: In
-      #                 values:
-      #                   - prometheus
-      #           topologyKey: kubernetes.io/hostname
   volumeClaimTemplates:
     - metadata:
         name: data
